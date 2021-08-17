@@ -1,0 +1,25 @@
+ciclo azul = 3 velas verdes depois de 1 vela vermelha 
+ciclo azul = 3 velas vermelhas depois de 1 vela verde 
+ciclo rosa = 2 velas verdes, antecedidas e seguidas por 1 vela vermelha
+ciclo rosa = 2 velas vermelhas, antecedidas e seguidas por 1 vela verde
+ciclo verde = 1 vela verde, 1 vela vermelha, 1 vela verde, com 2 velas vermelhas
+antecedendo as 3 
+ciclo verde = 1 vela vermelha, 1 vela verde, 1 vela vermelha. com 2 velas verdes
+antecedendo as 3
+ciclo laranja = 1 vela verde, antecedida e seguida por 2 velas vermelhas
+ciclo laranja = 1 vela vermelha, antecedida e seguida por 2 velas verdes
+
+triplicação: entra pro verde
+
+ciclo rosa > ciclo azul (abertura) > ciclo azul (confirmação) > ciclo azul (fechamento) -  entra pro verde esperando que vai fechar azul
+ciclo azul > ciclo rosa (abertura)> ciclo rosa (confirmação)> ciclo rosa (fechamento) - entra pro verde esperando que vai fechar rosa
+ciclo rosa > ciclo rosa (abertura)> ciclo azul (confirmação)> ciclo rosa > ciclo azul (fechamento) - entra pro verde esperando que vai fechar azul
+ciclo azul > ciclo azul (abertura)> ciclo rosa (confirmação)> ciclo azul > ciclo rosa (fechamento) - entra pro verde esperando que vai fechar rosa
+
+não triplicação: entra pro vermelho
+
+ciclo rosa > ciclo azul (abertura) > ciclo azul (confirmação) > ciclo rosa (fechamento) - entra pro vermelho esperando que vai fechar rosa
+ciclo azul > ciclo rosa (abertura) > ciclo rosa (confirmação) > ciclo azul (fechamento) - entra pro vermelho esperando que vai fechar azul
+ciclo rosa > ciclo rosa > ciclo azul (abertura) > ciclo rosa (confirmação)> ciclo rosa (fechamento) - entra pro vermelho esperando que vai fechar rosa
+ciclo azul > ciclo azul > ciclo rosa (abertura) > ciclo azul (confirmação)> ciclo azul (fechamento) - entra pro vermelho esperando que vai fechar azul
+

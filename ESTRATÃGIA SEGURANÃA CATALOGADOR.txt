@@ -1,0 +1,35 @@
+ESTRATÉGIA CATALOGADOR:
+
+* Primeiro, o usuário se cadastra no site; ele cria um usuário e uma senha.
+
+* Depois, ele instala o programa na(s) máquina(s) da empresa. Ele utilizaria um número serial fornecido apenas para validar a instalação, podendo ter, encriptado, o tempo de uso permitido.
+
+* Uma vez que o programa estivesse instalado e funcionando, o usuário iria ativá-lo, isto é, iria entrar em uma caixa de diálogo na qual digitaria seu usuário e sua senha anteriormente criadas (ou criaria naquele instante).
+
+* Neste momento, seu programa (ou outro programa separado, integrante do pacote) iria coletar várias informações da máquina, como por exemplo o endereço MAC da placa de rede, a quantidade de memória, o modelo e a velocidade do processador, etc... Essa coleta não é difícil de fazer no Delphi.
+
+* Uma vez que o sistema tenha essas informações, ele iria gerar uma string com todas elas codificadas. Você poderia escolher a melhor forma de ordená-las (separando por vírgula, por exemplo) e depois codificando em Base64, Rot13 ou algum outro algoritmo conhecido. A vantagem de se fazer essa coleta é que se evitaria que a mesma cópia fosse instalada em trocentos computadores e você teria estatísticas de que tipo de máquina seu programa roda, podendo adaptá-lo nas próximas versões, caso necessário.
+
+* O ponto crucial é que, depois disso, seu software enviaria uma requisição para o seu servidor web contendo o usuário, a senha, o serial e essa string.
+
+* Recebida essa informação, sua página a avaliaria e daria uma resposta:
+
+- se aquele serial está na lista negra (pirata ou expirado), ele mandaria de volta um código e o programa iria exibir uma mensagem dizendo para inserir outro ou comprar um;
+
+- se o serial está OK, ele verificaria se o mesmo já não consta no BD. Se não, o mesmo seria adicionado juntamente à data atual e o servidor mandaria de volta uma mensagem OK, permitindo que o programa funcione normalmente; se ele consta e a string é a mesma, significa que o cara reinstalou o programa. Nesse caso, basta verificar a data e enviar OK ou a mensagem do item anterior; se o código é diferente, significa ou que o cara instalou o programa em uma máquina diferente ou que ele deu um up na máquina. Ai você decide o que fazer.
+
+* Uma vez que o programa esteja funcionando, ele iria, periodicamente, enviar para o seu servidor a data atual, o serial e o código, que poderia ser gerado de tempos em tempos, recebendo as respostas acima.
+
+* É claro que esse sistema não é perfeito. Pode ser que o servidor fique fora do ar. Neste caso, após um número determinado de tentativas de contato, o programa deve solicitar ativação por telefone. Assim, ele exibirá um código numérico que o usuário deverá informar ao atendente, que lhe retornará outro código que destravará o sistema. Pode acontecer, ainda, de alguém descobrir o esquema de funcionamento, crackear o programa com um editor hexadecimal e um debugger e desabilitar essa rotina de verificação ou até criar um servidor de autenticação pirata que emula as respostas do seu sistema, mas se ficarmos paranóicos com todas as possibilidades, não vamos sair do lugar, não é mesmo?
+
+Bem, essa é a minha sugestão, espero que seja útil.
+
+Mas para fazer essa verificação online nem precisa de muita coisa, toda linguagem de programação usa algum protocolo web, você cria um servidor onde irá hospedar um banco de dados e um sistema de upload/download de dados.
+
+1 - No banco de dados do servidor(esse sim teria controle de date e hora pois está sob o seu poder) você hospeda os dados básicos da empresa(tipo de licença, CNPJ, etc).
+
+2 - O programa faz uma requisição para o seu servidor e envia via protocolo HTTPS a senha de autenticação ao servidor, senha aceita, ele faz o upload do certificado que você criou para aquele cliente.
+
+3 - Recebido o certificado e comprovando ser aquele mesmo o cliente ele envia a chave de ativação criptografada, o programa lê, compara com a data fornecida pelo servidor e a gravada no certificado enviado e então libera ou não o uso, entendeu?
+
+Como foi dito, você pode programar um código de emergência para fornecer ao cliente caso tenha problemas e ele te ligue, o código pode ser usado X vezes e é alterado a cada nova ativação.
